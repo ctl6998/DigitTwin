@@ -16,16 +16,20 @@ from firebase_admin import storage
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.primitives import padding
 from cryptography.hazmat.backends import default_backend
+from dotenv import load_dotenv
 
+# Load environment variables from .env file
+load_dotenv()
 
 # Khởi tạo Flask Server Backend
 app = Flask(__name__)
 
 # Environment
 CORS(app)
-app.config['CORS_HEADERS'] = 'Content-Type'
-app.config['UPLOAD_FOLDER'] = "static"
-app.secret_key = 'cf5542a7bd3f44b0a1d31f8b20fabdd0' #UUID
+app.config['CORS_HEADERS'] = os.getenv('CORS_HEADERS')
+app.config['UPLOAD_FOLDER'] = os.getenv('UPLOAD_FOLDER')
+app.secret_key = os.getenv('SECRET_KEY') # UUID
+app.encrypt_key = os.getenv('ENCRYPT_KEY').encode() # Ensure it's bytes
 
 # Apply Firebase Admin SDK
 cred = credentials.Certificate('serviceAccountKey.json')
@@ -33,15 +37,15 @@ firebase_admin.initialize_app(cred)
 
 # Apply Flask Pyrebae config
 config = {
-  "apiKey": "AIzaSyCc7y56Rr9mHmWJdEJOG-whJUS9GQ21FOY",
-  "authDomain": "sensor-ethic.firebaseapp.com",
-  "databaseURL": "https://sensor-ethic-default-rtdb.asia-southeast1.firebasedatabase.app",
-  "projectId": "sensor-ethic",
-  "storageBucket": "sensor-ethic.appspot.com",
-  "messagingSenderId": "1037106927899",
-  "appId": "1:1037106927899:web:e4fd0db7ad34caf87fdbbe",
-  "measurementId": "G-RFPJWC8VHH"
-};
+    "apiKey": os.getenv('FIREBASE_API_KEY'),
+    "authDomain": os.getenv('FIREBASE_AUTH_DOMAIN'),
+    "databaseURL": os.getenv('FIREBASE_DATABASE_URL'),
+    "projectId": os.getenv('FIREBASE_PROJECT_ID'),
+    "storageBucket": os.getenv('FIREBASE_STORAGE_BUCKET'),
+    "messagingSenderId": os.getenv('FIREBASE_MESSAGING_SENDER_ID'),
+    "appId": os.getenv('FIREBASE_APP_ID'),
+    "measurementId": os.getenv('FIREBASE_MEASUREMENT_ID')
+}
 firebase = pyrebase.initialize_app(config)
 pyre_auth = firebase.auth()
 pyre_storage = firebase.storage()
@@ -176,7 +180,7 @@ def storage():
 
         print("Decrypt image")
         # Decrypt image
-        encryption_key = b'16_byte_enc_key!'  # AES key must match the one used for encryption
+        encryption_key = app.encrypt_key  # AES key must match the one used for encryption
         decrypted_image = decrypt_data(encrypted_image_data, encryption_key)
 
         print("Save image")
