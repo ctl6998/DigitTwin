@@ -51,7 +51,7 @@ To get the project up and running, follow these steps:
 
 ### Hardware Setup
 1. Connect the sensors to the Arduino.
-2. Set uo the Arduino with `.ino` file.
+2. Set up the Arduino with `.ino` file.
 3. Set up the Raspberry Pi and ensure it has Python installed.
 4. Run the `fianl06.py` on the Raspberry Pi to start collecting and sending sensor data to Firebase.
 
