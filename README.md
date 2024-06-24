@@ -46,6 +46,7 @@ The `Stue-app` folder contains the front-end application built using NextJS. Thi
 - `package.json`: Lists dependencies and scripts for the NextJS application.
 
 ## Getting Started
+(Additional Firebase SDK is required to initialize the connection, we can not share the SDK here as it is private information)
 To get the project up and running, follow these steps:
 
 ### Hardware Setup
@@ -63,3 +64,6 @@ To get the project up and running, follow these steps:
 1. Navigate to the `stue-app` directory: cd stue-app
 2. Install required package: npm install package.json
 3. Run the application (developer mode): npm run dev
+
+## Contact
+For any questions or suggestions, please contact ctl6998 at chithanhle.0609@gmail.com.
